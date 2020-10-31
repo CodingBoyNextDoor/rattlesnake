@@ -35,9 +35,7 @@ android {
     lintOptions {
         abortOnError false
     }
-//    packagingOptions {
-//        exclude 'lib/armeabi-v7a/libopencv_java3.so'
-//    }
+
     buildTypes {
         release {
             minifyEnabled false
