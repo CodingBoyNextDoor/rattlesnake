@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 30
+    buildToolsVersion '29.0.2'
+    defaultConfig {
+        applicationId "android.example"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+//        jackOptions {
+//            enabled true
+//        }
+
+        externalNativeBuild {
+            cmake {
+                //arguments  '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=gnustl_static'
+                cppFlags "-std=c++11","-frtti", "-fexceptions"
+            }
+        }
+        ndk{
+            abiFilters 'armeabi-v7a'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+//        ndkBuild {
+//            path 'src/main/jni/Android.mk'
+//        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+//    packagingOptions {
+//        exclude 'lib/armeabi-v7a/libopencv_java3.so'
+//    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    aaptOptions {
+        noCompress "tflite"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+//    sourceSets {
+//        main {
+//            jniLibs.srcDirs = ['libs']
+//        }
+//    }
+    ndkVersion '16.1.4479499'
+}
+
+repositories {
+    maven {
+        url 'https://google.bintray.com/tensorflow'
+    }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(name:'tensorflow-lite', ext:'aar')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.2'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:support-annotations:28.0.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:support-v13:28.0.0'
+
+    implementation project(':openCVLibrary341')
+//    compile 'org.tensorflow:tensorflow-lite:+'
+    implementation project(':macelibrary')
+    testImplementation 'junit:junit:4.13.1'
+}
