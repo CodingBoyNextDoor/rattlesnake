@@ -15,6 +15,8 @@
 
 package com.example;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -46,6 +49,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentCompat;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
@@ -63,8 +67,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
+import static android.content.pm.PackageManager.*;
 
 /**
  * Basic fragments for the Camera.
@@ -233,6 +240,58 @@ public class Camera2BasicFragment extends Fragment
                 }
             };
 
+    public String judgePose() {
+        String res = "";
+        CopyOnWriteArrayList<PointF> drawPoints = drawView.getmDrawPoint();
+        if (drawPoints.size() != 0) {
+            PointF p0 = drawPoints.get(0);  //top
+            PointF p1 = drawPoints.get(1);  //neck
+            PointF p2 = drawPoints.get(2);  //rshoulder
+            PointF p3 = drawPoints.get(3);  //relbow
+            PointF p4 = drawPoints.get(4);  //lwrist
+            PointF p5 = drawPoints.get(5);  //lshoulder
+            PointF p6 = drawPoints.get(6);  //lelbow
+            PointF p7 = drawPoints.get(7);  //lwrist
+            PointF p8 = drawPoints.get(8);  //rhip
+            PointF p9 = drawPoints.get(9);  //rknee
+            PointF p10 = drawPoints.get(10);    //rankle
+            PointF p11 = drawPoints.get(11);    //lhip
+            PointF p12 = drawPoints.get(12);    //lknee
+            PointF p13 = drawPoints.get(13);    //lankle
+            if (p3.y < p6.y) {
+                res += "左背阔肌紧张\n";
+            } else if (p3.y > p6.y) {
+                res += "右背阔肌紧张\n";
+            }
+            if (p2.y < p5.y) {
+                res += "右上斜方肌紧张\n";
+            } else if (p2.y > p5.y) {
+                res += "左上斜方肌紧张\n";
+            }
+            if (p8.y > p11.y) {
+                res += "右髂（qia）腰肌紧张\n";
+            } else if (p8.y < p11.y) {
+                res += "左髂（qia）腰肌紧张\n";
+            }
+            if (p9.x < p10.x || p12.x > p13.x) {
+                res += "髋外展\n";
+            } else if (p9.x > p10.x || p12.x < p13.x) {
+                res += "髋内收\n";
+            }
+            if (p10.y < p13.y) {
+                res += "右胫骨后肌力量较弱\n";
+            } else if (p10.y > p13.y) {
+                res += "左胫骨后肌力量较弱\n";
+            }
+            if (p1.x > (p8.x + p11.x) / 2) {
+                res += "左倾斜侧竖脊肌紧张\n";
+            } else if (p1.x < (p8.x + p11.x) / 2) {
+                res += "右倾斜侧竖脊肌紧张\n";
+            }
+        }
+        return res;
+    }
+
     /**
      * Shows a {@link Toast} on the UI thread for the classification results.
      *
@@ -245,7 +304,12 @@ public class Camera2BasicFragment extends Fragment
                     new Runnable() {
                         @Override
                         public void run() {
-                            textView.setText(text);
+                            String str = judgePose();
+                            if (!str.isEmpty()) {
+                                textView.setText(str);
+                            } else {
+                                textView.setText(text);
+                            }
                             drawView.invalidate();
                         }
                     });
@@ -419,7 +483,7 @@ public class Camera2BasicFragment extends Fragment
                 // coordinate.
                 int displayRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
                 // noinspection ConstantConditions
-        /* Orientation of the camera sensor */
+                /* Orientation of the camera sensor */
                 int sensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
                 boolean swappedDimensions = false;
                 switch (displayRotation) {
@@ -501,7 +565,7 @@ public class Camera2BasicFragment extends Fragment
             PackageInfo info =
                     activity
                             .getPackageManager()
-                            .getPackageInfo(activity.getPackageName(), PackageManager.GET_PERMISSIONS);
+                            .getPackageInfo(activity.getPackageName(), GET_PERMISSIONS);
             String[] ps = info.requestedPermissions;
             if (ps != null && ps.length > 0) {
                 return ps;
@@ -516,6 +580,7 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Opens the camera specified by {@link Camera2BasicFragment#cameraId}.
      */
+    @SuppressLint("MissingPermission")
     private void openCamera(int width, int height) {
         if (!checkedPermissions && !allPermissionsGranted()) {
             FragmentCompat.requestPermissions(this, getRequiredPermissions(), PERMISSIONS_REQUEST_CODE);
@@ -542,7 +607,7 @@ public class Camera2BasicFragment extends Fragment
     private boolean allPermissionsGranted() {
         for (String permission : getRequiredPermissions()) {
             if (ContextCompat.checkSelfPermission(getActivity(), permission)
-                    != PackageManager.PERMISSION_GRANTED) {
+                    != PERMISSION_GRANTED) {
                 return false;
             }
         }

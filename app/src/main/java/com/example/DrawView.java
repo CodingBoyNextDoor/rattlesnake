@@ -63,6 +63,10 @@ public class DrawView extends View {
     };
     private Paint mPaint;
 
+    public CopyOnWriteArrayList<PointF> getmDrawPoint() {
+        return mDrawPoint;
+    }
+
     public DrawView(Context context) {
         super(context);
     }
@@ -114,6 +118,7 @@ public class DrawView extends View {
         mRatioHeight = height;
         requestLayout();
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {

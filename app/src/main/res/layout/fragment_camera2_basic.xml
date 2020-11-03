@@ -54,7 +54,7 @@
             android:textColor="#FFF"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="asd"/>
+            tools:text="asd" />
 
         <LinearLayout
             android:layout_width="match_parent"
