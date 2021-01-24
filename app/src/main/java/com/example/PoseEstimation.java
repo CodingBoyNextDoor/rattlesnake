@@ -79,7 +79,7 @@ public abstract class PoseEstimation {
         long startTime = SystemClock.uptimeMillis();
         runInference();
         long endTime = SystemClock.uptimeMillis();
-        String textToShow = Long.toString(endTime - startTime) + "ms";
+        String textToShow = Long.toString(endTime - startTime) + "ms\n";
         return textToShow;
     }
 

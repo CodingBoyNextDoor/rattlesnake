@@ -56,7 +56,7 @@ android {
 //            jniLibs.srcDirs = ['libs']
 //        }
 //    }
-    ndkVersion '16.1.4479499'
+//    ndkVersion '16.1.4479499'
 }
 
 repositories {
@@ -87,4 +87,5 @@ dependencies {
 //    compile 'org.tensorflow:tensorflow-lite:+'
     implementation project(':macelibrary')
     testImplementation 'junit:junit:4.13.1'
+
 }

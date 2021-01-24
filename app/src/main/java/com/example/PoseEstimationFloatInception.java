@@ -77,8 +77,6 @@ public class PoseEstimationFloatInception extends PoseEstimation {
         if (mPrintPointArray == null)
             mPrintPointArray = new float[2][14];
 
-        if (!CameraActivity.isOpenCVInit)
-            return;
 
         //先进行高斯滤波,5*5
         if (mMat == null)

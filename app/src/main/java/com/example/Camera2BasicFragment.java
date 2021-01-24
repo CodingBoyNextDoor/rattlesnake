@@ -119,6 +119,7 @@ public class Camera2BasicFragment extends Fragment
                 @Override
                 public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height) {
                     openCamera(width, height);
+
                 }
 
                 @Override
@@ -242,6 +243,7 @@ public class Camera2BasicFragment extends Fragment
 
     public String judgePose() {
         String res = "";
+        List<String> judgeList=new ArrayList<String>();
         CopyOnWriteArrayList<PointF> drawPoints = drawView.getmDrawPoint();
         if (drawPoints.size() != 0) {
             PointF p0 = drawPoints.get(0);  //top
@@ -259,35 +261,53 @@ public class Camera2BasicFragment extends Fragment
             PointF p12 = drawPoints.get(12);    //lknee
             PointF p13 = drawPoints.get(13);    //lankle
             if (p3.y < p6.y) {
-                res += "左背阔肌紧张\n";
+                String str="左背阔肌紧张\n";
+                judgeList.add(str);
             } else if (p3.y > p6.y) {
-                res += "右背阔肌紧张\n";
+                String str="右背阔肌紧张\n";
+                judgeList.add(str);
             }
             if (p2.y < p5.y) {
-                res += "右上斜方肌紧张\n";
+                String str= "右上斜方肌紧张\n";
+                judgeList.add(str);
             } else if (p2.y > p5.y) {
-                res += "左上斜方肌紧张\n";
+                String str= "左上斜方肌紧张\n";
+                judgeList.add(str);
             }
             if (p8.y > p11.y) {
-                res += "右髂（qia）腰肌紧张\n";
+                String str= "右髂（qia）腰肌紧张\n";
+                judgeList.add(str);
             } else if (p8.y < p11.y) {
-                res += "左髂（qia）腰肌紧张\n";
+                String str= "左髂（qia）腰肌紧张\n";
+                judgeList.add(str);
             }
             if (p9.x < p10.x || p12.x > p13.x) {
-                res += "髋外展\n";
+                String str= "髋外展\n";
+                judgeList.add(str);
             } else if (p9.x > p10.x || p12.x < p13.x) {
-                res += "髋内收\n";
+                String str= "髋内收\n";
+                judgeList.add(str);
             }
             if (p10.y < p13.y) {
-                res += "右胫骨后肌力量较弱\n";
+                String str= "右胫骨后肌力量较弱\n";
+                judgeList.add(str);
             } else if (p10.y > p13.y) {
-                res += "左胫骨后肌力量较弱\n";
+                String str= "左胫骨后肌力量较弱\n";
+                judgeList.add(str);
             }
             if (p1.x > (p8.x + p11.x) / 2) {
-                res += "左倾斜侧竖脊肌紧张\n";
+                String str= "左倾斜侧竖脊肌紧张\n";
+                judgeList.add(str);
             } else if (p1.x < (p8.x + p11.x) / 2) {
-                res += "右倾斜侧竖脊肌紧张\n";
+                String str= "右倾斜侧竖脊肌紧张\n";
+                judgeList.add(str);
             }
+        }
+        int i=0;
+        for (String str:judgeList){
+            i++;
+            res+=str;
+            if(i>=3)break;
         }
         return res;
     }
@@ -305,10 +325,9 @@ public class Camera2BasicFragment extends Fragment
                         @Override
                         public void run() {
                             String str = judgePose();
+                            str=text+str;
                             if (!str.isEmpty()) {
                                 textView.setText(str);
-                            } else {
-                                textView.setText(text);
                             }
                             drawView.invalidate();
                         }
