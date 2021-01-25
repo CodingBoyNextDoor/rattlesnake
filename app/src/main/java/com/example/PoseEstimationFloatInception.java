@@ -16,6 +16,7 @@
 package com.example;
 
 import android.app.Activity;
+import android.graphics.PointF;
 import android.util.Log;
 
 import org.opencv.core.CvType;
@@ -36,7 +37,7 @@ public class PoseEstimationFloatInception extends PoseEstimation {
      *
      * @param activity
      */
-    PoseEstimationFloatInception(Activity activity) throws IOException {
+    public PoseEstimationFloatInception(Activity activity) throws IOException {
         super(activity);
     }
 
@@ -134,5 +135,88 @@ public class PoseEstimationFloatInception extends PoseEstimation {
         if (x < 0 || y < 0 || x >= getOutputSizeX() || y >= getOutputSizeY())
             return -1;
         return arr[x * getOutputSizeX() + y];
+    }
+    @Override
+    public PointF getHead() {
+        PointF pointF=new PointF(mPrintPointArray[0][0],mPrintPointArray[1][0]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getNeck() {
+        PointF pointF=new PointF(mPrintPointArray[0][1],mPrintPointArray[1][1]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getRShoulder() {
+        PointF pointF=new PointF(mPrintPointArray[0][2],mPrintPointArray[1][2]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getRElbow() {
+        PointF pointF=new PointF(mPrintPointArray[0][3],mPrintPointArray[1][3]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getRWrist() {
+        PointF pointF=new PointF(mPrintPointArray[0][4],mPrintPointArray[1][4]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getLShoulder() {
+        PointF pointF=new PointF(mPrintPointArray[0][5],mPrintPointArray[1][5]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getLElbow() {
+        PointF pointF=new PointF(mPrintPointArray[0][6],mPrintPointArray[1][6]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getLWrist() {
+        PointF pointF=new PointF(mPrintPointArray[0][7],mPrintPointArray[1][7]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getRHip() {
+        PointF pointF=new PointF(mPrintPointArray[0][8],mPrintPointArray[1][8]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getRKnee() {
+        PointF pointF=new PointF(mPrintPointArray[0][9],mPrintPointArray[1][9]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getRAnkle() {
+        PointF pointF=new PointF(mPrintPointArray[0][10],mPrintPointArray[1][10]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getLHip() {
+        PointF pointF=new PointF(mPrintPointArray[0][11],mPrintPointArray[1][11]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getLKnee() {
+        PointF pointF=new PointF(mPrintPointArray[0][12],mPrintPointArray[1][12]);
+        return pointF;
+    }
+
+    @Override
+    public PointF getLankle() {
+        PointF pointF=new PointF(mPrintPointArray[0][13],mPrintPointArray[1][13]);
+        return pointF;
     }
 }

@@ -69,6 +69,7 @@ repositories {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(name:'tensorflow-lite', ext:'aar')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
@@ -87,5 +88,6 @@ dependencies {
 //    compile 'org.tensorflow:tensorflow-lite:+'
     implementation project(':macelibrary')
     testImplementation 'junit:junit:4.13.1'
+
 
 }

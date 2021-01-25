@@ -226,4 +226,60 @@ public class DrawView extends View {
         mRatioX = ((float) mImgWidth) / mWidth;
         mRatioY = ((float) mImgHeight) / mHeight;
     }
+
+    public PointF getHead(){
+        return mDrawPoint.get(0);
+    }
+
+    public PointF getNeck() {
+        return mDrawPoint.get(1);
+    }
+
+    public PointF getRShoulder() {
+        return mDrawPoint.get(2);
+    }
+
+    public PointF getRElbow() {
+        return mDrawPoint.get(3);
+    }
+
+    public PointF getRWrist() {
+        return mDrawPoint.get(4);
+    }
+
+    public PointF getLShoulder() {
+        return mDrawPoint.get(5);
+    }
+
+    public PointF getLElbow() {
+        return mDrawPoint.get(6);
+    }
+
+    public PointF getLWrist() {
+        return mDrawPoint.get(7);
+    }
+
+    public PointF getRHip() {
+        return mDrawPoint.get(8);
+    }
+
+    public PointF getRKnee() {
+        return mDrawPoint.get(9);
+    }
+
+    public PointF getRAnkle() {
+        return mDrawPoint.get(10);
+    }
+
+    public PointF getLHip() {
+        return mDrawPoint.get(11);
+    }
+
+    public PointF getLKnee() {
+        return mDrawPoint.get(12);
+    }
+
+    public PointF getLankle() {
+        return mDrawPoint.get(13);
+    }
 }

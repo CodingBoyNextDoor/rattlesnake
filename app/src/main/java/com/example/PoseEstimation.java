@@ -17,6 +17,7 @@ package com.example;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.util.Log;
@@ -50,7 +51,7 @@ public abstract class PoseEstimation {
     /**
      * Initializes an {@code PoseEstimation}.
      */
-    PoseEstimation(Activity activity) throws IOException {
+    public PoseEstimation(Activity activity) throws IOException {
 
         int lengthValues = getImageSizeY() * getImageSizeX() * 3;
         float[] floatValues = new float[lengthValues];
@@ -73,7 +74,7 @@ public abstract class PoseEstimation {
     /**
      * Classifies a frame from the preview stream.
      */
-    String classifyFrame(Bitmap bitmap) {
+    public String classifyFrame(Bitmap bitmap) {
         convertBitmapToByteBuffer(bitmap);
         // Here's where the magic happens!!!
         long startTime = SystemClock.uptimeMillis();
@@ -152,4 +153,18 @@ public abstract class PoseEstimation {
      * primitive data types.
      */
     protected abstract void runInference();
+    public abstract PointF getHead();
+    public abstract PointF getNeck();
+    public abstract PointF getRShoulder();
+    public abstract PointF getRElbow();
+    public abstract PointF getRWrist();
+    public abstract PointF getLShoulder();
+    public abstract PointF getLElbow();
+    public abstract PointF getLWrist();
+    public abstract PointF getRHip();
+    public abstract PointF getRKnee();
+    public abstract PointF getRAnkle();
+    public abstract PointF getLHip();
+    public abstract PointF getLKnee();
+    public abstract PointF getLankle();
 }
